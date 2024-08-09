@@ -14,12 +14,11 @@ typedef struct {
    	 uint16_t end_per;
 	 uint16_t period;
 	 uint16_t fill_factor;
-	 uint16_t long_imp;
+	 uint8_t long_imp;
 	 uint16_t freq;
 
 } PWM;
 
 void CALC_FREQ (PWM *pmw);
-
 
 #endif /* INC_PWM_H_ */

@@ -45,7 +45,7 @@ I2C_HandleTypeDef hi2c1;
 
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
-TIM_HandleTypeDef htim3;// PWM generator
+TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart1;
 
@@ -58,8 +58,7 @@ PWM pwm_1;
 PWM pwm_2;
 PWM pwm_3;
 PWM pwm_4;
-uint8_t flag_IC = 0;
-uint8_t buffer[32];
+uint8_t buffer[25];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -115,8 +114,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_1);
 	HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_2);
+	HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_3);
+	HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_4);
 	HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);
 	HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_2);
+	HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_3);
+	HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
 	INA219_Init(&sensor_1, &hi2c1, 0x40);
@@ -132,36 +135,34 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  INA219GetAll(&sensor_1);
-	  INA219GetAll(&sensor_2);
-	  INA219GetAll(&sensor_3);
-	  INA219GetAll(&sensor_4);
-	  buffer[2] = (sensor_1.voltage >> 8) & 0xff;
-	  buffer[3] = (sensor_1.voltage >> 0) & 0xff;
-	  buffer[4] = (sensor_2.voltage >> 8) & 0xff;
-	  buffer[5] = (sensor_3.voltage >> 0) & 0xff;
-	  buffer[6] = (sensor_3.voltage >> 8) & 0xff;
-	  buffer[7] = (sensor_3.voltage >> 0) & 0xff;
-	  buffer[8] = (sensor_4.voltage >> 8) & 0xff;
-	  buffer[9] = (sensor_4.voltage >> 0) & 0xff;
-	  buffer[10] = (sensor_1.current >> 8) & 0xff;
-	  buffer[11] = (sensor_1.current >> 0) & 0xff;
-	  buffer[12] = (sensor_2.current >> 8) & 0xff;
-	  buffer[13] = (sensor_3.current >> 0) & 0xff;
-	  buffer[14] = (sensor_3.current >> 8) & 0xff;
-	  buffer[15] = (sensor_3.current >> 0) & 0xff;
-	  buffer[16] = (sensor_4.current >> 8) & 0xff;
-	  buffer[17] = (sensor_4.current >> 0) & 0xff;
-	  buffer[18] = (pwm_1.fill_factor >> 8) & 0xff;
-	  buffer[19] = (pwm_1.fill_factor >> 0) & 0xff;
-	  buffer[20] = (pwm_2.fill_factor >> 8) & 0xff;
-	  buffer[21] = (pwm_2.fill_factor >> 0) & 0xff;
-	  buffer[22] = (pwm_3.fill_factor >> 8) & 0xff;
-	  buffer[23] = (pwm_3.fill_factor >> 0) & 0xff;
-	  buffer[24] = (pwm_4.fill_factor >> 8) & 0xff;
-	  buffer[25] = (pwm_4.fill_factor >> 0) & 0xff;
-	  HAL_UART_Transmit(&huart1, buffer, 25, 100);
+
     /* USER CODE BEGIN 3 */
+//	  	  INA219GetAll(&sensor_1);
+//	 	  INA219GetAll(&sensor_2);
+//	 	  INA219GetAll(&sensor_3);
+//	 	  INA219GetAll(&sensor_4);
+		buffer[2] = (sensor_1.voltage >> 8) & 0xff;
+		buffer[3] = (sensor_1.voltage >> 0) & 0xff;
+		buffer[4] = (sensor_2.voltage >> 8) & 0xff;
+		buffer[5] = (sensor_3.voltage >> 0) & 0xff;
+		buffer[6] = (sensor_3.voltage >> 8) & 0xff;
+		buffer[7] = (sensor_3.voltage >> 0) & 0xff;
+		buffer[8] = (sensor_4.voltage >> 8) & 0xff;
+		buffer[9] = (sensor_4.voltage >> 0) & 0xff;
+		buffer[10] = (sensor_1.current >> 8) & 0xff;
+		buffer[11] = (sensor_1.current >> 0) & 0xff;
+		buffer[12] = (sensor_2.current >> 8) & 0xff;
+		buffer[13] = (sensor_3.current >> 0) & 0xff;
+		buffer[14] = (sensor_3.current >> 8) & 0xff;
+		buffer[15] = (sensor_3.current >> 0) & 0xff;
+		buffer[16] = (sensor_4.current >> 8) & 0xff;
+		buffer[17] = (sensor_4.current >> 0) & 0xff;
+		buffer[18] = pwm_1.long_imp;
+		buffer[19] = pwm_2.long_imp;
+		buffer[20] = pwm_3.long_imp;
+		buffer[21] = pwm_4.long_imp;
+	 	  HAL_Delay(100);
+	 	  HAL_UART_Transmit(&huart1, buffer, 25, 100);
   }
   /* USER CODE END 3 */
 }
@@ -282,16 +283,19 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
   sConfigIC.ICSelection = TIM_ICSELECTION_INDIRECTTI;
   if (HAL_TIM_IC_ConfigChannel(&htim1, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   if (HAL_TIM_IC_ConfigChannel(&htim1, &sConfigIC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
   }
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
   sConfigIC.ICSelection = TIM_ICSELECTION_INDIRECTTI;
   if (HAL_TIM_IC_ConfigChannel(&htim1, &sConfigIC, TIM_CHANNEL_4) != HAL_OK)
   {
@@ -345,16 +349,19 @@ static void MX_TIM2_Init(void)
   {
     Error_Handler();
   }
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
   sConfigIC.ICSelection = TIM_ICSELECTION_INDIRECTTI;
   if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
   }
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
   sConfigIC.ICSelection = TIM_ICSELECTION_INDIRECTTI;
   if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_4) != HAL_OK)
   {
@@ -472,6 +479,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 	if (htim->Instance == TIM1) {
 		if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1) {
@@ -503,6 +511,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 		}
 	}
 }
+
 
 
 /* USER CODE END 4 */
