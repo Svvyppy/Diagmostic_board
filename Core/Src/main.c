@@ -42,6 +42,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c1;
+DMA_HandleTypeDef hdma_i2c1_rx;
+DMA_HandleTypeDef hdma_i2c1_tx;
 
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
@@ -64,6 +66,7 @@ uint8_t buffer[25];
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
@@ -106,6 +109,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_I2C1_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
@@ -137,10 +141,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//	  	  INA219GetAll(&sensor_1);
-//	 	  INA219GetAll(&sensor_2);
-//	 	  INA219GetAll(&sensor_3);
-//	 	  INA219GetAll(&sensor_4);
+		INA219GetAll(&sensor_1);
+		INA219GetAll(&sensor_2);
+		INA219GetAll(&sensor_3);
+		INA219GetAll(&sensor_4);
 		buffer[2] = (sensor_1.voltage >> 8) & 0xff;
 		buffer[3] = (sensor_1.voltage >> 0) & 0xff;
 		buffer[4] = (sensor_2.voltage >> 8) & 0xff;
@@ -161,9 +165,9 @@ int main(void)
 		buffer[19] = pwm_2.long_imp;
 		buffer[20] = pwm_3.long_imp;
 		buffer[21] = pwm_4.long_imp;
-	 	  HAL_Delay(100);
-	 	  HAL_UART_Transmit(&huart1, buffer, 25, 100);
-  }
+		HAL_Delay(100);
+		HAL_UART_Transmit(&huart1, buffer, 25, 100);
+	}
   /* USER CODE END 3 */
 }
 
@@ -456,6 +460,25 @@ static void MX_USART1_UART_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel6_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
+  /* DMA1_Channel7_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
 
 }
 

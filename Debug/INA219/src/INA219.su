@@ -1,5 +1,5 @@
-../INA219/src/INA219.c:14:10:Read16	40	static
-../INA219/src/INA219.c:24:6:Write16	40	static
+../INA219/src/INA219.c:14:10:Read16	32	static
+../INA219/src/INA219.c:24:6:Write16	32	static
 ../INA219/src/INA219.c:32:10:INA219_ReadBusVoltage	24	static
 ../INA219/src/INA219.c:40:9:INA219_ReadCurrent_raw	24	static
 ../INA219/src/INA219.c:47:9:INA219_ReadCurrent	24	static
