@@ -60,7 +60,7 @@ PWM pwm_1;
 PWM pwm_2;
 PWM pwm_3;
 PWM pwm_4;
-uint8_t buffer[25];
+uint8_t buffer[22];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -126,11 +126,11 @@ int main(void)
 	HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
-	INA219_Init(&sensor_1, &hi2c1, 0x40);
+	INA219_Init(&sensor_1, &hi2c1, 0x40); //инитим датчики тока
 	INA219_Init(&sensor_2, &hi2c1, 0x41);
 	INA219_Init(&sensor_3, &hi2c1, 0x44);
 	INA219_Init(&sensor_4, &hi2c1, 0x45);
-	buffer[0] = 0xff;
+	buffer[0] = 0xff; //хэдеры послыки
 	buffer[1] = 0xfd;
   /* USER CODE END 2 */
 
@@ -166,7 +166,7 @@ int main(void)
 		buffer[20] = pwm_3.long_imp;
 		buffer[21] = pwm_4.long_imp;
 		HAL_Delay(100);
-		HAL_UART_Transmit(&huart1, buffer, 25, 100);
+		HAL_UART_Transmit(&huart1, buffer, 22, 100);
 	}
   /* USER CODE END 3 */
 }
