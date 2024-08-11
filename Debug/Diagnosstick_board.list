@@ -21,9 +21,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   8 .data         0000000c  20000000  08004c94  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          000002b0  2000000c  08004ca0  0002000c  2**2
+  9 .bss          000002ac  2000000c  08004ca0  0002000c  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  200002bc  08004ca0  000202bc  2**0
+ 10 ._user_heap_stack 00000600  200002b8  08004ca0  000202b8  2**0
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  0002000c  2**0
                   CONTENTS, READONLY
@@ -161,7 +161,7 @@ int main(void)
  80001bc:	210c      	movs	r1, #12
  80001be:	4853      	ldr	r0, [pc, #332]	; (800030c <main+0x1c0>)
  80001c0:	f003 f994 	bl	80034ec <HAL_TIM_PWM_Start>
-	INA219_Init(&sensor_1, &hi2c1, 0x40);
+	INA219_Init(&sensor_1, &hi2c1, 0x40); //инитим датчики тока
  80001c4:	2240      	movs	r2, #64	; 0x40
  80001c6:	4952      	ldr	r1, [pc, #328]	; (8000310 <main+0x1c4>)
  80001c8:	4852      	ldr	r0, [pc, #328]	; (8000314 <main+0x1c8>)
@@ -181,7 +181,7 @@ int main(void)
  80001e4:	494a      	ldr	r1, [pc, #296]	; (8000310 <main+0x1c4>)
  80001e6:	484e      	ldr	r0, [pc, #312]	; (8000320 <main+0x1d4>)
  80001e8:	f004 fc7c 	bl	8004ae4 <INA219_Init>
-	buffer[0] = 0xff;
+	buffer[0] = 0xff; //хэдеры послыки
  80001ec:	4b4d      	ldr	r3, [pc, #308]	; (8000324 <main+0x1d8>)
  80001ee:	22ff      	movs	r2, #255	; 0xff
  80001f0:	701a      	strb	r2, [r3, #0]
@@ -341,9 +341,9 @@ int main(void)
 		HAL_Delay(100);
  80002f0:	2064      	movs	r0, #100	; 0x64
  80002f2:	f000 fde9 	bl	8000ec8 <HAL_Delay>
-		HAL_UART_Transmit(&huart1, buffer, 25, 100);
+		HAL_UART_Transmit(&huart1, buffer, 22, 100);
  80002f6:	2364      	movs	r3, #100	; 0x64
- 80002f8:	2219      	movs	r2, #25
+ 80002f8:	2216      	movs	r2, #22
  80002fa:	490a      	ldr	r1, [pc, #40]	; (8000324 <main+0x1d8>)
  80002fc:	480e      	ldr	r0, [pc, #56]	; (8000338 <main+0x1ec>)
  80002fe:	f004 f99d 	bl	800463c <HAL_UART_Transmit>
@@ -2400,7 +2400,7 @@ LoopFillZerobss:
   ldr r2, =_sbss
  8000df8:	2000000c 	.word	0x2000000c
   ldr r4, =_ebss
- 8000dfc:	200002bc 	.word	0x200002bc
+ 8000dfc:	200002b8 	.word	0x200002b8
 
 08000e00 <ADC1_2_IRQHandler>:
  * @retval : None
@@ -2548,7 +2548,7 @@ __weak void HAL_IncTick(void)
  8000ea8:	bc80      	pop	{r7}
  8000eaa:	4770      	bx	lr
  8000eac:	20000008 	.word	0x20000008
- 8000eb0:	200002b0 	.word	0x200002b0
+ 8000eb0:	200002ac 	.word	0x200002ac
 
 08000eb4 <HAL_GetTick>:
   * @note  This function is declared as __weak to be overwritten in case of other
@@ -2567,7 +2567,7 @@ __weak uint32_t HAL_GetTick(void)
  8000ebe:	46bd      	mov	sp, r7
  8000ec0:	bc80      	pop	{r7}
  8000ec2:	4770      	bx	lr
- 8000ec4:	200002b0 	.word	0x200002b0
+ 8000ec4:	200002ac 	.word	0x200002ac
 
 08000ec8 <HAL_Delay>:
   *       implementations in user file.
@@ -13053,7 +13053,7 @@ int16_t INA219_ReadCurrent(INA219_t *ina219)
  8004a2a:	46bd      	mov	sp, r7
  8004a2c:	bd80      	pop	{r7, pc}
  8004a2e:	bf00      	nop
- 8004a30:	200002b6 	.word	0x200002b6
+ 8004a30:	200002b2 	.word	0x200002b2
 
 08004a34 <INA219_Reset>:
 
@@ -13172,9 +13172,9 @@ void INA219_setCalibration_32V_2A(INA219_t *ina219)
  8004ad2:	3710      	adds	r7, #16
  8004ad4:	46bd      	mov	sp, r7
  8004ad6:	bd80      	pop	{r7, pc}
- 8004ad8:	200002b4 	.word	0x200002b4
- 8004adc:	200002b6 	.word	0x200002b6
- 8004ae0:	200002b8 	.word	0x200002b8
+ 8004ad8:	200002b0 	.word	0x200002b0
+ 8004adc:	200002b2 	.word	0x200002b2
+ 8004ae0:	200002b4 	.word	0x200002b4
 
 08004ae4 <INA219_Init>:
 			break;
@@ -13248,8 +13248,8 @@ uint8_t INA219_Init(INA219_t *ina219, I2C_HandleTypeDef *i2c, uint8_t Address)
  8004b3a:	3718      	adds	r7, #24
  8004b3c:	46bd      	mov	sp, r7
  8004b3e:	bd80      	pop	{r7, pc}
- 8004b40:	200002b6 	.word	0x200002b6
- 8004b44:	200002b8 	.word	0x200002b8
+ 8004b40:	200002b2 	.word	0x200002b2
+ 8004b44:	200002b4 	.word	0x200002b4
 
 08004b48 <INA219GetAll>:
 
