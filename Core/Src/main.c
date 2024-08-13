@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "ARGB.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -87,6 +88,14 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
+//	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
+//	  GPIOC->CRH &= ~ ((1<<23) | (1<<22));
+//	  GPIOC->CRH |= ((1<<21) | (1<<20));
+//
+//	uint32_t tickstart = HAL_GetTick();
+
+
+
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -126,16 +135,21 @@ int main(void)
 	INA219_Init(&sensor_2, &hi2c1, 0x41);
 	INA219_Init(&sensor_3, &hi2c1, 0x44);
 	INA219_Init(&sensor_4, &hi2c1, 0x45);
+	ARGB_Init();
+	ARGB_SetBrightness(255);
+
 	buffer[0] = 0xff;
 	buffer[1] = 0xfd;
   /* USER CODE END 2 */
 
   /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
+	/* Infinite loop */
+		  /* USER CODE BEGIN WHILE */
+		  while (1)
+		  {
 
+			  HAL_GPIO_WritePin(GPIOC, 13, SET);
+		    /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
 //	  	  INA219GetAll(&sensor_1);
 //	 	  INA219GetAll(&sensor_2);
@@ -161,6 +175,14 @@ int main(void)
 		buffer[19] = pwm_2.long_imp;
 		buffer[20] = pwm_3.long_imp;
 		buffer[21] = pwm_4.long_imp;
+		if((sensor_1.current > 2000) || (sensor_2.current > 2000) || (sensor_3.current > 2000) || (sensor_4.current > 2000)){
+			ARGB_FillRGB(255, 0, 0);
+
+		} else if ((sensor_1.voltage < 9) || (sensor_2.voltage < 9)) {
+			ARGB_FillRGB(255, 0, 0);
+		} else {
+			ARGB_FillRGB(0, 255, 0);
+		}
 	 	  HAL_Delay(100);
 	 	  HAL_UART_Transmit(&huart1, buffer, 25, 100);
   }

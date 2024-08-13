@@ -46,8 +46,8 @@
 									<listOptionValue builtIn="false" value="../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F1xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Diagnosstick_board/INA219/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Diagnosstick_board/PWM/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Diagmostic_board/INA219/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Diagmostic_board/PWM/inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.2056815737" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

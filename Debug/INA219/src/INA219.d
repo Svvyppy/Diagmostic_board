@@ -25,7 +25,7 @@ INA219/src/INA219.o: ../INA219/src/INA219.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
- B:/adc/Diagnosstick_board/INA219/inc/INA219.h
+ C:/diagnostic_board/Diagmostic_board/INA219/inc/INA219.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
@@ -53,4 +53,4 @@ INA219/src/INA219.o: ../INA219/src/INA219.c ../Core/Inc/main.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
-B:/adc/Diagnosstick_board/INA219/inc/INA219.h:
+C:/diagnostic_board/Diagmostic_board/INA219/inc/INA219.h:

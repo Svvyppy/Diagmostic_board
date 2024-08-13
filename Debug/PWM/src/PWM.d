@@ -1,5 +1,6 @@
-PWM/src/PWM.o: ../PWM/src/PWM.c B:/adc/Diagnosstick_board/PWM/inc/PWM.h \
- ../Core/Inc/main.h ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+PWM/src/PWM.o: ../PWM/src/PWM.c \
+ C:/diagnostic_board/Diagmostic_board/PWM/inc/PWM.h ../Core/Inc/main.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -25,7 +26,7 @@ PWM/src/PWM.o: ../PWM/src/PWM.c B:/adc/Diagnosstick_board/PWM/inc/PWM.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-B:/adc/Diagnosstick_board/PWM/inc/PWM.h:
+C:/diagnostic_board/Diagmostic_board/PWM/inc/PWM.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
