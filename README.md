@@ -1,1 +1,0 @@
-# Diagmostic_board

@@ -9,11 +9,11 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include PWM/src/subdir.mk
--include INA219/src/subdir.mk
 -include Drivers/STM32F1xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
+-include Core/PWM/src/subdir.mk
+-include Core/INA219/src/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -36,34 +36,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := Diagnosstick_board
+BUILD_ARTIFACT_NAME := diadnosticccc
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-Diagnosstick_board.elf \
+diadnosticccc.elf \
 
 MAP_FILES += \
-Diagnosstick_board.map \
+diadnosticccc.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-Diagnosstick_board.list \
+diadnosticccc.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: Diagnosstick_board.elf secondary-outputs
+main-build: diadnosticccc.elf secondary-outputs
 
 # Tool invocations
-Diagnosstick_board.elf Diagnosstick_board.map: $(OBJS) $(USER_OBJS) B:\adc\Diagnosstick_board\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Diagnosstick_board.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"B:\adc\Diagnosstick_board\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Diagnosstick_board.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+diadnosticccc.elf diadnosticccc.map: $(OBJS) $(USER_OBJS) C:\Users\admin\Desktop\diadnosticccc\STM32F103C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "diadnosticccc.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\admin\Desktop\diadnosticccc\STM32F103C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="diadnosticccc.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -72,14 +72,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Diagnosstick_board.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Diagnosstick_board.list"
+diadnosticccc.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "diadnosticccc.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) Diagnosstick_board.elf Diagnosstick_board.list Diagnosstick_board.map default.size.stdout
+	-$(RM) default.size.stdout diadnosticccc.elf diadnosticccc.list diadnosticccc.map
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
