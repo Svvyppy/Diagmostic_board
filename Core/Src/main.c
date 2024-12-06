@@ -127,16 +127,11 @@ int main(void)
   	INA219_Init(&sensor_4, &hi2c1, 0x45);
   	INA219_setCalibration_32V_2A(&sensor_1);
   	INA219_setCalibration_32V_2A(&sensor_2);
-  	INA219_setCalibration_32V_2A(&sensor_3);
+ 	INA219_setCalibration_32V_2A(&sensor_3);
   	INA219_setCalibration_32V_2A(&sensor_4);
   	SSD1306_Init ();
-  	ARGB_Init();
-  	ARGB_SetBrightness(255);
-
-
-
-
-
+  	//ARGB_Init();
+    //ARGB_SetBrightness(255);
 
   	buffer[0] = 0xff;
   	buffer[1] = 0xfd;
@@ -174,32 +169,32 @@ int main(void)
 	  buffer[21] = pwm_4.long_imp;
 	  SSD1306_GotoXY (3,3); // goto 10, 10
 	  sprintf(c, "Vb=%.1fV", sensor_1.voltage);
-	  SSD1306_Puts (c, &Font_7x10, 1); // print Hello
+	  SSD1306_Puts (&c, &Font_7x10, 1); // print Hello
 	  SSD1306_GotoXY (3, 19);
-	  sprintf(c, "Ib=%.1fA", sensor_1.current);
-	  SSD1306_Puts (c, &Font_7x10, 1);
+	  sprintf(c, "Ib=%.1fA", (double) sensor_1.current);
+	  SSD1306_Puts (&c, &Font_7x10, 1);
 	  SSD1306_GotoXY (3, 35);
-	  sprintf(c, "I5V=%.1fA", sensor_2.current);
-	  SSD1306_Puts (c, &Font_7x10, 1);
+	  sprintf(c, "I5V=%.1fA", (double) sensor_2.voltage);
+	  SSD1306_Puts (&c, &Font_7x10, 1);
 	  SSD1306_GotoXY (3, 50);
-	  sprintf(c, "I12=%.1fA", sensor_3.current);
-	  SSD1306_Puts (c, &Font_7x10, 1);
+	  sprintf(c, "I12=%.1fA", (double) sensor_3.current);
+	  SSD1306_Puts (&c, &Font_7x10, 1);
 	  SSD1306_GotoXY (70, 3);
-	  sprintf(c, "PWM1=%.0f", pwm_1.long_imp);
-	  SSD1306_Puts (c, &Font_7x10, 1);
+	  sprintf(c, "PWM1=%.0f", (double) pwm_1.long_imp);
+	  SSD1306_Puts (&c, &Font_7x10, 1);
 	  SSD1306_GotoXY (70, 19);
-	  sprintf(c, "PWM2=%.0f", pwm_2.long_imp);
-	  SSD1306_Puts (c, &Font_7x10, 1);
+	  sprintf(c, "PWM2=%.0f", (double) pwm_2.long_imp);
+	  SSD1306_Puts (&c, &Font_7x10, 1);
 	  SSD1306_GotoXY (70, 35);
-	  sprintf(c, "PWM3=%.0f", pwm_3.long_imp);
-	  SSD1306_Puts (c, &Font_7x10, 1);
+	  sprintf(c, "PWM3=%.0f", (double) pwm_3.long_imp);
+	  SSD1306_Puts (&c, &Font_7x10, 1);
 	  SSD1306_GotoXY (70, 50);
 	  sprintf(c, "PWM4=%.0f", pwm_4.long_imp);
-	  SSD1306_Puts (c, &Font_7x10, 1);
+	  SSD1306_Puts (&c, &Font_7x10, 1);
 
 	    SSD1306_UpdateScreen();
 	 // if((sensor_1.current > 2000) || (sensor_2.current > 2000) || (sensor_3.current > 2000) || (sensor_4.current > 2000)){
-		  ARGB_FillRGB(255, 0, 0);
+		//  ARGB_FillRGB(255, 0, 0);
 		  //установка начального положения
 		 // SSD1306_Putc(sensor_1.voltage, &Font_11x18, 1);
 
@@ -215,7 +210,6 @@ int main(void)
 	  HAL_Delay(100);
 	  HAL_UART_Transmit(&huart1, buffer, 25, 100);
 
-	  //очистка экрана
 
     /* USER CODE END WHILE */
 
